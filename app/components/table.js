@@ -44,7 +44,7 @@ export async function TableDeployment({ query, currentPage }) {
                     {deployment.cpu}
                   </td>
                   <td className="px-3 py-3 whitespace-nowrap">
-                    {deployment.memory}
+                    {deployment.memory * 0.000000001}
                   </td>
                   <td className="px-3 py-3 whitespace-nowrap">
                     <PinStatus status={deployment.status} />
@@ -73,10 +73,10 @@ export async function TableJob({ query, currentPage }) {
                   Name
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Tenant
+                  ID
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Version
+                  Start time
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Status
@@ -96,8 +96,10 @@ export async function TableJob({ query, currentPage }) {
                       </Link>
                     </div>
                   </td>
-                  <td className="px-3 py-3 whitespace-nowrap">{job.tenant}</td>
-                  <td className="px-3 py-3 whitespace-nowrap">{job.version}</td>
+                  <td className="px-3 py-3 whitespace-nowrap">{job.id}</td>
+                  <td className="px-3 py-3 whitespace-nowrap">
+                    {job.startTime}
+                  </td>
                   <td className="px-3 py-3 whitespace-nowrap">
                     <PinStatus status={job.status} />
                   </td>

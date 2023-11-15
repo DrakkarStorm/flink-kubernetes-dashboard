@@ -5,15 +5,13 @@ export default function BoxStatus({ status }) {
     <span
       className={clsx("inline-flex items-center  px-4 py-2 text-m", {
         "bg-red-500 text-white": status === "FAILED",
-        "bg-gray-100 text-gray-500":
-          status === "FINISHED" || status === "CANCELLED",
-        "bg-green-500 text-white": status === "RUNNING",
+        "bg-gray-100 text-gray-500": status === "SUSPENDED",
+        "bg-green-500 text-white": status === "STABLE",
       })}
     >
       {status === "FAILED" ? <>FAILED</> : null}
-      {status === "FINISHED" ? <>FINISHED</> : null}
-      {status === "CANCELLED" ? <>CANCELLED</> : null}
-      {status === "RUNNING" ? <>RUNNING</> : null}
+      {status === "SUSPENDED" ? <>SUSPENDED</> : null}
+      {status === "STABLE" ? <>STABLE</> : null}
     </span>
   );
 }

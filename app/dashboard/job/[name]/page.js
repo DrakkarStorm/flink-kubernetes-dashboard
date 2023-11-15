@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default async function Page({ params }) {
   const job = await fetchJobByName(params.name);
-  console.log(job.status);
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-between w-full">
@@ -13,22 +13,22 @@ export default async function Page({ params }) {
         <BoxStatus status={job.status} />
       </div>
       <div className="flex pt-5">
-        {job.status === "FAILED" ||
-        job.status === "FINISHED" ||
-        job.status === "RUNNING" ? (
+        {job.status === "FAILED" || job.status === "STABLE" ? (
           <>
             <ActionButton action="cancel" id={params.name} />
           </>
         ) : null}
-        {job.status === "CANCELLED" ? (
+        {job.status === "SUSPENDED" ? (
           <>
             <ActionButton action="start" id={params.name} />
           </>
         ) : null}
-        {job.status === "RUNNING" ? (
+        {job.status === "STABLE" ? (
           <div className="ml-4">
             <Link
-              href="#"
+              href={`https://session-cluster-knada.knada.rancher.kosmos.fr/job/${job.name}`}
+              rel="noopener noreferrer"
+              target="_blank"
               className="inline-flex items-center p-3 border rounded-md hover:bg-gray-100"
             >
               FLink UI

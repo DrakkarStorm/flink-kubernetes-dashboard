@@ -13,23 +13,23 @@ export default async function Page({ params }) {
         <BoxStatus status={deployment.status} />
       </div>
       <div className="flex pt-5">
-        {deployment.status === "FAILED" ||
-        deployment.status === "FINISHED" ||
-        deployment.status === "RUNNING" ? (
+        {deployment.status === "FAILED" || deployment.status === "STABLE" ? (
           <>
             <ActionButton action="cancel" id={params.name} />
           </>
         ) : null}
-        {deployment.status === "CANCELLED" ? (
+        {deployment.status === "SUSPENDED" ? (
           <>
             <ActionButton action="start" id={params.name} />
           </>
         ) : null}
-        {deployment.status === "RUNNING" ? (
+        {deployment.status === "STABLE" ? (
           <>
             <div className="ml-4">
               <Link
-                href="#"
+                href={`https://${deployment.name}.knada.rancher.kosmos.fr`}
+                rel="noopener noreferrer"
+                target="_blank"
                 className="inline-flex items-center p-3 border rounded-md hover:bg-gray-100"
               >
                 FLink UI

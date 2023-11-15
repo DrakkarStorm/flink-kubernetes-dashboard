@@ -2,52 +2,26 @@ import { unstable_noStore as noStore } from "next/cache";
 
 const ITEMS_PER_PAGE = 6;
 
-const jobs = [
-  {
-    name: "indicateur-visite-compte-v2",
-    tenant: "knada",
-    version: "1",
-    status: "RUNNING",
-  },
-  {
-    name: "indicateur-contenu-editorial",
-    tenant: "knada",
-    version: "2",
-    status: "CANCELLED",
-  },
-  {
-    name: "batch-etablissement",
-    tenant: "knada",
-    version: "3",
-    status: "FINISHED",
-  },
-  {
-    name: "batch-userdata",
-    tenant: "knada",
-    version: "4",
-    status: "FINISHED",
-  },
-  {
-    name: "batch-utilisateur",
-    tenant: "knada",
-    version: "5",
-    status: "FINISHED",
-  },
-  {
-    name: "batch-status-activation-mobile",
-    tenant: "knada",
-    version: "6",
-    status: "FINISHED",
-  },
-];
+export async function fetchJobs() {
+  let jobs = [];
+
+  await fetch("http://localhost:8080/api/jobs")
+    .then((res) => res.json())
+    .then((jobsFetch) => {
+      jobs = jobsFetch;
+    })
+    .catch((error) => {
+      throw new Error("Failed to fetch jobs.");
+    });
+
+  return jobs;
+}
 
 export async function fetchJobsPages(query) {
-  noStore();
-
   try {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    const jobs = await fetchJobs();
 
-    return 1;
+    return jobs.length % ITEMS_PER_PAGE;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch total number of jobs.");
@@ -55,12 +29,15 @@ export async function fetchJobsPages(query) {
 }
 
 export async function fetchFilteredJobs(query, currentPage) {
-  noStore();
-
   try {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    const jobs = await fetchJobs();
 
-    return jobs;
+    const maxItem = 10;
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, maxItem);
+    const filteredJobs = jobs.slice(startIndex, endIndex);
+
+    return filteredJobs;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch jobs.");
@@ -68,6 +45,7 @@ export async function fetchFilteredJobs(query, currentPage) {
 }
 
 export async function fetchJobByName(name) {
+  const jobs = await fetchJobs();
   return jobs.filter((job) => job.name === name)[0];
 }
 
