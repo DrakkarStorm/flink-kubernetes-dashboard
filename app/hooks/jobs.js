@@ -5,9 +5,12 @@ const ITEMS_PER_PAGE = 6;
 export async function fetchJobs() {
   let jobs = [];
 
-  await fetch("http://localhost:8080/api/jobs")
+  await fetch("http://localhost:8080/api/jobs", {
+    next: { revalidate: 10 },
+  })
     .then((res) => res.json())
     .then((jobsFetch) => {
+      console.log(jobsFetch);
       jobs = jobsFetch;
     })
     .catch((error) => {
@@ -20,6 +23,10 @@ export async function fetchJobs() {
 export async function fetchJobsPages(query) {
   try {
     const jobs = await fetchJobs();
+    console.log(jobs);
+    if (jobs.length == 0) {
+      return 1;
+    }
 
     return jobs.length % ITEMS_PER_PAGE;
   } catch (error) {

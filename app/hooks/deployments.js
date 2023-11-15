@@ -3,7 +3,9 @@ const ITEMS_PER_PAGE = 6;
 export async function fetchDeployments() {
   let deployments = [];
 
-  await fetch("http://localhost:8080/api/deployments")
+  await fetch("http://localhost:8080/api/deployments", {
+    next: { revalidate: 10 },
+  })
     .then((res) => res.json())
     .then((deploymentsFetch) => {
       deployments = deploymentsFetch;
@@ -19,6 +21,9 @@ export async function fetchDeploymentsPages(query) {
   try {
     // await new Promise((resolve) => setTimeout(resolve, 3000));
     const deployments = await fetchDeployments();
+    if (deployments.length == 0) {
+      return 1;
+    }
 
     return deployments.length % ITEMS_PER_PAGE;
   } catch (error) {

@@ -26,7 +26,7 @@ export default async function Page({ params }) {
         {job.status === "STABLE" ? (
           <div className="ml-4">
             <Link
-              href={`https://session-cluster-knada.knada.rancher.kosmos.fr/job/${job.name}`}
+              href={`https://session-cluster-knada.knada.rancher.kosmos.fr/#/job/${job.id}/overview`}
               rel="noopener noreferrer"
               target="_blank"
               className="inline-flex items-center p-3 border rounded-md hover:bg-gray-100"

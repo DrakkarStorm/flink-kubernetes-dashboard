@@ -28,29 +28,30 @@ export async function TableDeployment({ query, currentPage }) {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {deployments?.map((deployment, i) => (
-                <tr
-                  key={i}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
-                >
-                  <td className="py-3 pl-6 pr-3 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <Link href={`/dashboard/deployment/${deployment.name}`}>
-                        <p className="hover:font-bold">{deployment.name}</p>
-                      </Link>
-                    </div>
-                  </td>
-                  <td className="px-3 py-3 whitespace-nowrap">
-                    {deployment.cpu}
-                  </td>
-                  <td className="px-3 py-3 whitespace-nowrap">
-                    {deployment.memory * 0.000000001}
-                  </td>
-                  <td className="px-3 py-3 whitespace-nowrap">
-                    <PinStatus status={deployment.status} />
-                  </td>
-                </tr>
-              ))}
+              {deployments?.map((deployment, i) => {
+                const memory = Math.floor(deployment.memory * 0.000000001);
+                return (
+                  <tr
+                    key={i}
+                    className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  >
+                    <td className="py-3 pl-6 pr-3 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <Link href={`/dashboard/deployment/${deployment.name}`}>
+                          <p className="hover:font-bold">{deployment.name}</p>
+                        </Link>
+                      </div>
+                    </td>
+                    <td className="px-3 py-3 whitespace-nowrap">
+                      {deployment.cpu}
+                    </td>
+                    <td className="px-3 py-3 whitespace-nowrap">{memory}G</td>
+                    <td className="px-3 py-3 whitespace-nowrap">
+                      <PinStatus status={deployment.status} />
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -84,27 +85,29 @@ export async function TableJob({ query, currentPage }) {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {jobs?.map((job, i) => (
-                <tr
-                  key={i}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
-                >
-                  <td className="py-3 pl-6 pr-3 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <Link href={`/dashboard/job/${job.name}`}>
-                        <p className="hover:font-bold">{job.name}</p>
-                      </Link>
-                    </div>
-                  </td>
-                  <td className="px-3 py-3 whitespace-nowrap">{job.id}</td>
-                  <td className="px-3 py-3 whitespace-nowrap">
-                    {job.startTime}
-                  </td>
-                  <td className="px-3 py-3 whitespace-nowrap">
-                    <PinStatus status={job.status} />
-                  </td>
-                </tr>
-              ))}
+              {jobs?.map((job, i) => {
+                const epochTimestamp = parseInt(job.startTime, 10);
+                const date = new Date(epochTimestamp);
+                return (
+                  <tr
+                    key={i}
+                    className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  >
+                    <td className="py-3 pl-6 pr-3 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <Link href={`/dashboard/job/${job.name}`}>
+                          <p className="hover:font-bold">{job.name}</p>
+                        </Link>
+                      </div>
+                    </td>
+                    <td className="px-3 py-3 whitespace-nowrap">{job.id}</td>
+                    <td className="px-3 py-3 whitespace-nowrap">{date}</td>
+                    <td className="px-3 py-3 whitespace-nowrap">
+                      <PinStatus status={job.status} />
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
