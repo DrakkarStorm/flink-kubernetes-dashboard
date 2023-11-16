@@ -101,7 +101,7 @@ export async function TableJob({ query, currentPage }) {
                       </div>
                     </td>
                     <td className="px-3 py-3 whitespace-nowrap">{job.id}</td>
-                    <td className="px-3 py-3 whitespace-nowrap">{date}</td>
+                    <td className="px-3 py-3 whitespace-nowrap">{job.startTime}</td>
                     <td className="px-3 py-3 whitespace-nowrap">
                       <PinStatus status={job.status} />
                     </td>

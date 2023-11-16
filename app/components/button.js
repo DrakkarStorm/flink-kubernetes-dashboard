@@ -1,9 +1,9 @@
 import { PlayIcon, PauseCircleIcon } from "@heroicons/react/24/outline";
 import { startJob, cancelJob } from "@/app/hooks/jobs";
 
-export function ActionButton({ action, id }) {
-  const startJobWithId = startJob.bind(null, id);
-  const cancelJobWithId = cancelJob.bind(null, id);
+export function ActionButton({ action, name }) {
+  const startJobWithId = startJob.bind(null, name);
+  const cancelJobWithId = cancelJob.bind(null, name);
 
   return (
     <form action={action === "start" ? startJobWithId : cancelJobWithId}>

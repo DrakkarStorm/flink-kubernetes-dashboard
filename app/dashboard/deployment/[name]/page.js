@@ -15,12 +15,12 @@ export default async function Page({ params }) {
       <div className="flex pt-5">
         {deployment.status === "FAILED" || deployment.status === "STABLE" ? (
           <>
-            <ActionButton action="cancel" id={params.name} />
+            <ActionButton action="cancel" name={params.name} />
           </>
         ) : null}
         {deployment.status === "SUSPENDED" ? (
           <>
-            <ActionButton action="start" id={params.name} />
+            <ActionButton action="start" name={params.name} />
           </>
         ) : null}
         {deployment.status === "STABLE" ? (

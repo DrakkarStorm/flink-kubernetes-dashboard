@@ -15,12 +15,12 @@ export default async function Page({ params }) {
       <div className="flex pt-5">
         {job.status === "FAILED" || job.status === "STABLE" ? (
           <>
-            <ActionButton action="cancel" id={params.name} />
+            <ActionButton action="cancel" name={params.name} />
           </>
         ) : null}
         {job.status === "SUSPENDED" ? (
           <>
-            <ActionButton action="start" id={params.name} />
+            <ActionButton action="start" name={params.name} />
           </>
         ) : null}
         {job.status === "STABLE" ? (

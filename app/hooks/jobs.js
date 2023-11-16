@@ -1,5 +1,3 @@
-import { unstable_noStore as noStore } from "next/cache";
-
 const ITEMS_PER_PAGE = 6;
 
 export async function fetchJobs() {
@@ -10,7 +8,6 @@ export async function fetchJobs() {
   })
     .then((res) => res.json())
     .then((jobsFetch) => {
-      console.log(jobsFetch);
       jobs = jobsFetch;
     })
     .catch((error) => {
@@ -23,7 +20,6 @@ export async function fetchJobs() {
 export async function fetchJobsPages(query) {
   try {
     const jobs = await fetchJobs();
-    console.log(jobs);
     if (jobs.length == 0) {
       return 1;
     }
@@ -56,10 +52,12 @@ export async function fetchJobByName(name) {
   return jobs.filter((job) => job.name === name)[0];
 }
 
-export async function startJob(id) {
+export async function startJob(name) {
   "use server";
   try {
-    revalidatePath(`/dashboard/job/${id}`);
+    await updateJob(name, "running")
+
+    revalidatePath(`/dashboard/job/${name}`);
     return { message: "Started Job." };
   } catch (error) {
     return {
@@ -68,14 +66,35 @@ export async function startJob(id) {
   }
 }
 
-export async function cancelJob(id) {
+export async function cancelJob(name) {
   "use server";
   try {
-    revalidatePath(`/dashboard/job/${id}`);
+    await updateJob(name, "suspended");
+
+    revalidatePath(`/dashboard/job/${name}`);
     return { message: "Cancelled Job." };
   } catch (error) {
+    console.log("Database Error: Failed to Cancel Job: ", error);
+
     return {
       message: "Database Error: Failed to Cancel Job.",
     };
+  }
+}
+
+export async function updateJob(name, state) {
+  const response = await fetch(`http://localhost:8080/api/jobs/${name}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    next: { revalidate: 0 },
+    body: JSON.stringify({state: state}),
+  }).catch((error) => {
+    throw new Error("Unable to fetch the api.");
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to change the state of the job.");
   }
 }
