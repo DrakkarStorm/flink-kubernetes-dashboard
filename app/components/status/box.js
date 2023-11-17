@@ -19,7 +19,7 @@ export default function BoxStatus({ status }) {
       className={clsx("inline-flex items-center  px-4 py-2 text-m", {
         "bg-red-500 text-white": status === FlinkJobStatusEnum.FAILED,
         "bg-gray-100 text-gray-500": status === FlinkJobStatusEnum.SUSPENDED,
-        "bg-green-500 text-white": state === FlinkJobStatusEnum.STABLE,
+        "bg-green-500 text-white": status === FlinkJobStatusEnum.STABLE,
         "bg-blue-500 text-white":
           status === FlinkJobStatusEnum.CREATED ||
           status === FlinkJobStatusEnum.DEPLOYED ||
