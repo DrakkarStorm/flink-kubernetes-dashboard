@@ -22,11 +22,6 @@ const links = [
     href: "/dashboard/job",
     icon: WindowIcon,
   },
-  {
-    name: "Artifact",
-    href: "/dashboard/artifact",
-    icon: CubeIcon,
-  },
 ];
 
 export default function NavLinks() {
