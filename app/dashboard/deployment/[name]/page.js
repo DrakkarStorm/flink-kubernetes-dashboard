@@ -13,7 +13,7 @@ export default async function Page({ params }) {
         <BoxStatus status={deployment.status} />
       </div>
       <div className="flex pt-5">
-        {deployment.status === "FAILED" || deployment.status === "STABLE" ? (
+        {/* {deployment.status === "FAILED" || deployment.status === "STABLE" ? (
           <>
             <ActionButton action="cancel" name={params.name} />
           </>
@@ -22,7 +22,7 @@ export default async function Page({ params }) {
           <>
             <ActionButton action="start" name={params.name} />
           </>
-        ) : null}
+        ) : null} */}
         {deployment.status === "STABLE" ? (
           <>
             <div className="ml-4">
