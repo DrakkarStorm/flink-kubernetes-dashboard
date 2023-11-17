@@ -4,7 +4,7 @@ export async function fetchDeployments() {
   let deployments = [];
 
   await fetch("http://localhost:8080/api/deployments", {
-    next: { revalidate: 10 },
+    next: { revalidate: 0 },
   })
     .then((res) => res.json())
     .then((deploymentsFetch) => {
