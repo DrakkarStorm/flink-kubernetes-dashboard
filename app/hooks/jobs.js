@@ -1,10 +1,12 @@
+import { revalidatePath } from "next/cache";
+
 const ITEMS_PER_PAGE = 6;
 
 export async function fetchJobs() {
   let jobs = [];
 
   await fetch("http://localhost:8080/api/jobs", {
-    next: { revalidate: 10 },
+    next: { revalidate: 0 },
   })
     .then((res) => res.json())
     .then((jobsFetch) => {
@@ -55,7 +57,7 @@ export async function fetchJobByName(name) {
 export async function startJob(name) {
   "use server";
   try {
-    await updateJob(name, "running")
+    await updateJob(name, "running");
 
     revalidatePath(`/dashboard/job/${name}`);
     return { message: "Started Job." };
@@ -88,8 +90,8 @@ export async function updateJob(name, state) {
     headers: {
       "Content-Type": "application/json",
     },
-    next: { revalidate: 0 },
-    body: JSON.stringify({state: state}),
+    next: { cache: "no-store" },
+    body: JSON.stringify({ state: state }),
   }).catch((error) => {
     throw new Error("Unable to fetch the api.");
   });
