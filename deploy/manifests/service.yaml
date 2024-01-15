@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flink-kubernetes-dashboard
+  namespace: flink-operator
+spec:
+  selector:
+    app: flink-kubernetes
+  ports:
+    - name: flink-kubernetes-dashboard
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  type: ClusterIP

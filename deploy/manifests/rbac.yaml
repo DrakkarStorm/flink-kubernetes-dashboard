@@ -1,0 +1,44 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: view-flink-operator-ressources
+rules:
+  - apiGroups:
+      - flink.apache.org
+    resources:
+      - flinkdeployments
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+  - apiGroups:
+      - flink.apache.org
+    resources:
+      - flinksessionjobs
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: flink-kubernetes-api-view-flink-operator-ressources
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view-flink-operator-ressources
+subjects:
+  - kind: ServiceAccount
+    name: flink-kubernetes-api
+    namespace: flink-operator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flink-kubernetes-api
+  namespace: flink-operator
