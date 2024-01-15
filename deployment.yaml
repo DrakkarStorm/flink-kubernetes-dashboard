@@ -56,8 +56,7 @@ spec:
     - host: flink-kubernetes-dashboard.knada.rancher.kosmos.fr
       http:
         paths:
-          - id: 2776508067
-            backend:
+          - backend:
               service:
                 port:
                   number: 3000
