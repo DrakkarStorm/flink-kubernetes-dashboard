@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: view-flink-operator-ressources
+  name: view-flink-deployments
 rules:
   - apiGroups:
       - flink.apache.org
@@ -27,11 +27,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: flink-kubernetes-api-view-flink-operator-ressources
+  name: flink-kubernetes-api-view-flink-deployments
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: view-flink-operator-ressources
+  name: view-flink-deployments
 subjects:
   - kind: ServiceAccount
     name: flink-kubernetes-api
